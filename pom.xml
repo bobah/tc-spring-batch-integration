@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>helloworld</groupId>
+    <artifactId>Spring-Batch-Hello-World</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0</version>
+    <name>Spring Batch Hello World</name>
+    <properties>
+        <spring.version>2.5.6</spring.version>
+        <spring-batch.version>2.0.0.M4</spring-batch.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.batch</groupId>
+            <artifactId>spring-batch-core</artifactId>
+            <version>${spring-batch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.5.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.terracotta.modules</groupId>
+            <artifactId>tim-masterworker</artifactId>
+            <version>1.4.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.terracotta.modules</groupId>
+            <artifactId>tim-synchronizedcollection</artifactId>
+            <version>2.3.4</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.terracotta.maven.plugins</groupId>
+                <artifactId>tc-maven-plugin</artifactId>
+                <version>1.2.2</version>
+                <configuration>
+                    <workingDirectory>${project.build.directory}</workingDirectory>
+                    <activeNodes>node1,sheduler</activeNodes>
+                    <processes>
+                        <process nodeName="node1"
+                                 className="helloworld.StartWorker" count="1"
+                                 jvmargs="-Xmx256m -Dcom.griddynamics.nodeName=node1 -Dtc.node-name=node1"/>
+                        <process nodeName="sheduler"
+                                 className="helloworld.Scheduler" count="1"
+                                 jvmargs="-Xmx128m -Dtc.node-name=sheduler"/>
+                    </processes>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

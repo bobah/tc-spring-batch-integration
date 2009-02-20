@@ -1,0 +1,115 @@
+<con:tc-config xmlns:con="http://www.terracotta.org/config">
+    <servers>
+        <server host="%i" name="localhost">
+            <dso-port>9510</dso-port>
+            <jmx-port>9520</jmx-port>
+            <data>terracotta/server-data</data>
+            <logs>terracotta/server-logs</logs>
+        </server>
+    </servers>
+
+    <clients>
+        <modules>
+            <module name="tim-masterworker" version="1.4.0-SNAPSHOT" group-id="org.terracotta.modules"/>
+        </modules>
+        <logs>%(user.home)/terracotta/client-logs/org.terracotta.modules.sample/%D</logs>
+    </clients>
+
+    <application>
+        <dso>
+            <instrumented-classes>
+                <include>
+                    <class-expression>helloworld.*</class-expression>
+                </include>
+                <include>
+                    <class-expression>org.springframework.batch..*</class-expression>
+                </include>
+                <include>
+                    <class-expression>org.springframework.aop..*
+                    </class-expression>
+                </include>
+                <include>
+                    <class-expression>org.springframework.transaction..*
+                    </class-expression>
+                </include>
+                <include>
+                    <class-expression>org.springframework.core..*
+                    </class-expression>
+                </include>
+                <!--<include>-->
+                    <!--<class-expression>org..*-->
+                    <!--</class-expression>-->
+                <!--</include>-->
+                <!--<include>-->
+                <!--<class-expression>org.apache.log4j..*-->
+                <!--</class-expression>-->
+                <!--</include>-->
+                <include>
+                    <class-expression>org.springframework.batch.core.step.tasklet.TaskletStep</class-expression>
+                    <on-load>
+                        <execute><![CDATA[self.semaphore = new Semaphore(1);logger = LogFactory.getLog(TaskletStep.class);]]></execute>
+                    </on-load>
+                </include>
+
+                <include>
+                    <class-expression>org.springframework.batch.core.launch.support.SimpleJobLauncher</class-expression>
+                    <on-load>
+                        <execute><![CDATA[logger = LogFactory.getLog(SimpleJobLauncher.class);]]></execute>
+                    </on-load>
+                </include>
+
+                <include>
+                    <class-expression>org.springframework.batch.core.job.AbstractJob</class-expression>
+                    <on-load>
+                        <execute><![CDATA[logger = LogFactory.getLog(AbstractJob.class);]]></execute>
+                    </on-load>
+                </include>
+                <include>
+                    <class-expression>org.springframework.batch.core.step.AbstractStep</class-expression>
+                    <on-load>
+                        <execute><![CDATA[logger = LogFactory.getLog(AbstractStep.class);]]></execute>
+                    </on-load>
+                </include>
+                <include>
+                    <class-expression>org.springframework.batch.repeat.support.RepeatTemplate</class-expression>
+                    <on-load>
+                        <execute><![CDATA[logger = LogFactory.getLog(RepeatTemplate.class);]]></execute>
+                    </on-load>
+                </include>
+                 <include>
+                    <class-expression>org.springframework.batch.core.step.ThreadStepInterruptionPolicy
+                    </class-expression>
+                    <on-load>
+                        <execute><![CDATA[logger = LogFactory.getLog(ThreadStepInterruptionPolicy.class);]]></execute>
+                    </on-load>
+
+                </include>
+
+            </instrumented-classes>
+            <transient-fields>
+                <field-name>org.springframework.batch.core.launch.support.SimpleJobLauncher.taskExecutor
+                </field-name>
+                <field-name>org.springframework.batch.core.step.tasklet.TaskletStep.semaphore
+                </field-name>
+                <field-name>org.springframework.batch.core.launch.support.SimpleJobLauncher.logger
+                </field-name>
+                <field-name>org.springframework.batch.core.job.AbstractJob.logger
+                </field-name>
+                <field-name>org.springframework.batch.core.step.tasklet.TaskletStep.logger
+                </field-name>
+                <field-name>org.springframework.batch.core.step.AbstractStep.logger
+                </field-name>
+                <field-name>org.springframework.batch.repeat.support.RepeatTemplate.logger
+                </field-name>
+                <field-name>org.springframework.batch.core.step.ThreadStepInterruptionPolicy.logger
+                </field-name>
+            </transient-fields>
+
+            <additional-boot-jar-classes>
+                <include>java.io.FilterWriter</include>
+                <include>java.io.Writer</include>
+                <!--<include>java.lang.AbstractStringBuilder</include>-->
+            </additional-boot-jar-classes>
+        </dso>
+    </application>
+</con:tc-config>

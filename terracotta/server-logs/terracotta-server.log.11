@@ -1,0 +1,194 @@
+2009-02-19 17:36:20,515 [main] INFO com.terracottatech.general - New logging session started.
+2009-02-19 17:36:20,530 [main] INFO com.terracottatech.console - Terracotta 2.7.2, as of 20081217-081200 (Revision 11005 by cruise@su10mo5 from 2.7)
+2009-02-19 17:36:20,749 [main] INFO com.tc.config.schema.setup.StandardXMLFileConfigurationCreator - Attempting to load configuration from the file at 'D:\JavaProjects\Spring-Batch-Hello-World\tc-config.xml'...
+2009-02-19 17:36:20,749 [main] INFO com.tc.config.schema.setup.StandardXMLFileConfigurationCreator - Successfully loaded configuration from the file at 'D:\JavaProjects\Spring-Batch-Hello-World\tc-config.xml'. Config is:
+
+<con:tc-config xmlns:con="http://www.terracotta.org/config">
+    <servers>
+        <server host="%i" name="localhost">
+            <dso-port>9510</dso-port>
+            <jmx-port>9520</jmx-port>
+            <data>terracotta/server-data</data>
+            <logs>terracotta/server-logs</logs>
+        </server>
+    </servers>
+
+    <clients>
+        <modules>
+            <module name="tim-masterworker" version="1.4.0-SNAPSHOT" group-id="org.terracotta.modules"/>
+        </modules>
+        <logs>%(user.home)/terracotta/client-logs/org.terracotta.modules.sample/%D</logs>
+    </clients>
+
+    <application>
+        <dso>
+            <instrumented-classes>
+                <include>
+                    <class-expression>helloworld.*</class-expression>
+                </include>
+                <include>
+                    <class-expression>org.springframework.batch..*</class-expression>
+                </include>
+                <include>
+                    <class-expression>org.springframework.aop..*
+                    </class-expression>
+                </include>
+                <include>
+                    <class-expression>org.springframework.transaction..*
+                    </class-expression>
+                </include>
+                <include>
+                    <class-expression>org.springframework.batch.core.step.tasklet.TaskletStep</class-expression>
+                    <on-load>
+                        <execute><![CDATA[self.semaphore = new Semaphore(1);]]></execute>
+                    </on-load>
+                </include>
+
+            </instrumented-classes>
+            <transient-fields>
+                <field-name>org.springframework.batch.core.launch.support.SimpleJobLauncher.taskExecutor
+                </field-name>
+                <field-name>org.springframework.batch.core.step.tasklet.TaskletStep.semaphore
+                </field-name>
+            </transient-fields>
+        </dso>
+    </application>
+</con:tc-config>
+2009-02-19 17:36:20,890 [main] INFO com.terracottatech.console - Configuration loaded from the file at 'D:\JavaProjects\Spring-Batch-Hello-World\tc-config.xml'.
+2009-02-19 17:36:20,890 [main] INFO com.tc.properties.TCProperties - Loading default properties from tc.properties
+2009-02-19 17:36:20,890 [main] INFO com.tc.properties.TCProperties - The property "tc.management.mbeans.enabled" was read before initialization completed. "tc.management.mbeans.enabled" = true
+2009-02-19 17:36:20,890 [main] INFO com.tc.properties.TCProperties - tc-config doesn't have any tc-property. No tc-property will be overridden
+2009-02-19 17:36:20,890 [main] INFO com.tc.properties.TCProperties - Loaded TCProperties : TCProperties = { console.showObjectID = true, cvt.buffer.randomsuffix.enabled = false, cvt.retriever.notification.interval = 60, cvt.statistics.logging.interval = 900, cvt.store.randomsuffix.enabled = false, ehcache.concurrency = 127, ehcache.evictor.logging.enabled = false, ehcache.evictor.pool.size = 1, ehcache.global.eviction.enable = true, ehcache.global.eviction.frequency = 10, ehcache.global.eviction.rest.timeMillis = 10, ehcache.global.eviction.segments = 2, ehcache.lock.readLevel = READ, ehcache.lock.writeLevel = WRITE, ehcache.logging.enabled = false, http.defaultservlet.attribute.aliases = false;, http.defaultservlet.attribute.dirallowed = false;, http.defaultservlet.enabled = false;, l1.cachemanager.criticalObjectThreshold = -1, l1.cachemanager.criticalThreshold = 90, l1.cachemanager.enabled = true, l1.cachemanager.leastCount = 2, l1.cachemanager.logging.enabled = false, l1.cachemanager.monitorOldGenOnly = true, l1.cachemanager.percentageToEvict = 10, l1.cachemanager.sleepInterval = 3000, l1.cachemanager.threshold = 70, l1.connect.versionMatchCheck.enabled = true, l1.healthcheck.l2.ping.enabled = true, l1.healthcheck.l2.ping.idletime = 5000, l1.healthcheck.l2.ping.interval = 1000, l1.healthcheck.l2.ping.probes = 3, l1.healthcheck.l2.socketConnect = true, l1.healthcheck.l2.socketConnectCount = 10, l1.healthcheck.l2.socketConnectTimeout = 5, l1.jvm.check.compatibility = true, l1.lock.statistics.gatherInterval = 1, l1.lock.statistics.traceDepth = 0, l1.lockmanager.striped.count = 16, l1.lockmanager.timeout.interval = 60000, l1.max.connect.retries = -1, l1.modules.additional = , l1.modules.default = org.terracotta.modules.excludes-config;bundle-version:=2.7.2,org.terracotta.modules.guimodels-config;bundle-version:=2.7.2,org.terracotta.modules.jdk15-preinst-config;bundle-version:=2.7.2,org.terracotta.modules.spring-config;bundle-version:=2.7.2,org.terracotta.modules.standard-config;bundle-version:=2.7.2, l1.modules.repositories = C:\Documents and Settings\vkatson\.m2\repository, l1.modules.tc-version-check = , l1.objectmanager.fault.logging.enabled = false, l1.objectmanager.flush.logging.enabled = false, l1.objectmanager.objectid.request.size = 50000, l1.objectmanager.remote.logging.enabled = false, l1.objectmanager.remote.maxDNALRUSize = 60, l1.seda.stage.sink.capacity = -1, l1.socket.connect.timeout = 10000, l1.socket.reconnect.waitInterval = 1000, l1.transactionmanager.completedAckFlushTimeout = 5000, l1.transactionmanager.folding.debug = false, l1.transactionmanager.folding.enabled = true, l1.transactionmanager.folding.lock.limit = 0, l1.transactionmanager.folding.object.limit = 0, l1.transactionmanager.logging.enabled = false, l1.transactionmanager.maxBatchSizeInKiloBytes = 128, l1.transactionmanager.maxOutstandingBatchSize = 4, l1.transactionmanager.maxPendingBatches = 88, l1.transactionmanager.maxSleepTimeBeforeHalt = 1024, l1.transactionmanager.strings.compress.enabled = true, l1.transactionmanager.strings.compress.logging.enabled = false, l1.transactionmanager.strings.compress.minSize = 512, l2.bdb.je.stats.logging.enabled = false, l2.beanshell.enabled = false, l2.beanshell.port = 9929, l2.berkeleydb.je.checkpointer.bytesInterval = 100000000, l2.berkeleydb.je.cleaner.bytesInterval = 20000000, l2.berkeleydb.je.cleaner.detailMaxMemoryPercentage = 5, l2.berkeleydb.je.cleaner.lookAheadCacheSize = 32768, l2.berkeleydb.je.cleaner.minAge = 5, l2.berkeleydb.je.lock.nLockTables = 7, l2.berkeleydb.je.lock.timeout = 180000000, l2.berkeleydb.je.maxMemoryPercent = 25, l2.cachemanager.criticalObjectThreshold = -1, l2.cachemanager.criticalThreshold = 90, l2.cachemanager.enabled = true, l2.cachemanager.leastCount = 2, l2.cachemanager.logging.enabled = false, l2.cachemanager.monitorOldGenOnly = true, l2.cachemanager.percentageToEvict = 10, l2.cachemanager.sleepInterval = 3000, l2.cachemanager.threshold = 70, l2.healthcheck.l1.ping.enabled = true, l2.healthcheck.l1.ping.idletime = 30000, l2.healthcheck.l1.ping.interval = 10000, l2.healthcheck.l1.ping.probes = 6, l2.healthcheck.l1.socketConnect = false, l2.healthcheck.l1.socketConnectCount = 2, l2.healthcheck.l1.socketConnectTimeout = 2, l2.healthcheck.l2.ping.enabled = true, l2.healthcheck.l2.ping.idletime = 5000, l2.healthcheck.l2.ping.interval = 1000, l2.healthcheck.l2.ping.probes = 3, l2.healthcheck.l2.socketConnect = true, l2.healthcheck.l2.socketConnectCount = 10, l2.healthcheck.l2.socketConnectTimeout = 5, l2.l1reconnect.enabled = false, l2.l1reconnect.maxDelayedAcks = 16, l2.l1reconnect.sendWindow = 32, l2.l1reconnect.sendqueue.cap = 5000, l2.l1reconnect.timeout.millis = 5000, l2.lfu.agingFactor = 1, l2.lfu.debug.enabled = false, l2.lfu.recentlyAccessedIgnorePercentage = 20, l2.lockmanager.greedy.lease.enabled = true, l2.lockmanager.greedy.lease.leaseTimeInMillis = 50, l2.nha.autoRestart = true, l2.nha.dirtydb.autoDelete = true, l2.nha.groupcomm.type = tc-group-comm, l2.nha.mcast.enabled = false, l2.nha.send.timeout.millis = 16000, l2.nha.tcgroupcomm.discovery.interval = 1000, l2.nha.tcgroupcomm.handshake.timeout = 5000, l2.nha.tcgroupcomm.reconnect.enabled = false, l2.nha.tcgroupcomm.reconnect.maxDelayedAcks = 16, l2.nha.tcgroupcomm.reconnect.sendWindow = 32, l2.nha.tcgroupcomm.reconnect.sendqueue.cap = 5000, l2.nha.tcgroupcomm.reconnect.timeout = 5000, l2.nha.tribes.failuredetector.millis = 5000, l2.nha.tribes.mcast.mcastAddress = 228.0.0.4, l2.nha.tribes.mcast.mcastFrequency = 500, l2.nha.tribes.mcast.mcastPort = 7777, l2.nha.tribes.mcast.memberDropTime = 3000, l2.nha.tribes.mcast.tcpListenHost = 127.0.0.1, l2.nha.tribes.mcast.tcpListenPort = 4000, l2.nha.tribes.orderinterceptor.enabled = false, l2.objectmanager.cachePolicy = lfu, l2.objectmanager.deleteBatchSize = 5000, l2.objectmanager.dgc.throttle.requestsPerThrottle = 1000, l2.objectmanager.dgc.throttle.timeInMillis = 0, l2.objectmanager.dgc.young.enabled = false, l2.objectmanager.dgc.young.frequencyInMillis = 180000, l2.objectmanager.fault.logging.enabled = false, l2.objectmanager.flush.logging.enabled = false, l2.objectmanager.loadObjectID.checkpoint.maxlimit = -1, l2.objectmanager.loadObjectID.checkpoint.maxsleep = 10000, l2.objectmanager.loadObjectID.fastLoad = true, l2.objectmanager.loadObjectID.longsPerDiskEntry = 8, l2.objectmanager.loadObjectID.mapsdatabase.longsPerDiskEntry = 1, l2.objectmanager.maxObjectsInTxnObjGrouping = 5000, l2.objectmanager.maxObjectsToCommit = 5000, l2.objectmanager.maxTxnsInTxnObjectGrouping = 500, l2.objectmanager.passive.sync.batch.size = 500, l2.objectmanager.passive.sync.throttle.timeInMillis = 0, l2.objectmanager.persistor.logging.enabled = false, l2.objectmanager.request.logging.enabled = false, l2.remotejmx.idletime = 5, l2.remotejmx.maxthreads = 50, l2.seda.commitstage.threads = 4, l2.seda.faultstage.threads = 4, l2.seda.flushstage.threads = 4, l2.seda.gcdeletestage.threads = 1, l2.seda.stage.sink.capacity = -1, l2.startuplock.retries.enabled = false, l2.transactionmanager.logging.enabled = false, l2.transactionmanager.logging.printBroadcastStats = false, l2.transactionmanager.logging.printCommits = false, l2.transactionmanager.logging.printStats = true, l2.transactionmanager.logging.verbose = false, l2.transactionmanager.passive.throttle.enabled = true, l2.transactionmanager.passive.throttle.maxSleepSeconds = 5, l2.transactionmanager.passive.throttle.threshold = 20000, lock.statistics.enabled = false, logging.longgc.threshold = 8000, logging.maxBackups = 20, logging.maxLogFileSize = 512, memory.monitor.forcebasic = false, net.core.keepalive = false, net.core.recv.buffer = 65536, net.core.send.buffer = 65536, net.core.tcpnodelay = true, session.debug.hops = false, session.debug.hops.interval = 100, session.debug.invalidate = false, session.debug.sessions = false, session.invalidator.bench.enabled = true, session.invalidator.sleep = 300, session.request.bench.enabled = false, session.request.tracking = false, session.request.tracking.dump = false, session.request.tracking.interval = 2500, session.request.tracking.threshold = 15000, session.vhosts.excluded = , stats.printer.intervalInMillis = 5000, tc.bytebuffer.common.pool.maxcount = 3000, tc.bytebuffer.pooling.enabled = true, tc.bytebuffer.threadlocal.pool.maxcount = 2000, tc.management.mbeans.enabled = true, tc.management.test.mbeans.enabled = false, tc.stage.monitor.delay = 5000, tc.stage.monitor.enabled = false, tcm.monitor.delay = 5, tcm.monitor.enabled = false }
+2009-02-19 17:36:20,968 [main] INFO com.terracottatech.console - Log file: 'D:\JavaProjects\Spring-Batch-Hello-World\terracotta\server-logs\terracotta-server.log'.
+2009-02-19 17:36:20,968 [main] INFO com.tc.logging.TCLogging - All Java System Properties for this Terracotta instance:
+========================================================================
+awt.toolkit                   : sun.awt.windows.WToolkit
+com.tc.l1.modules.repositories: C:\Documents and Settings\vkatson\.m2\repository
+file.encoding                 : Cp1251
+file.encoding.pkg             : sun.io
+file.separator                : \
+java.awt.graphicsenv          : sun.awt.Win32GraphicsEnvironment
+java.awt.printerjob           : sun.awt.windows.WPrinterJob
+java.class.path               : C:\Documents and Settings\vkatson\.m2\repository\commons-logging\commons-logging\1.0.4\commons-logging-1.0.4.jar;C:\Documents and Settings\vkatson\.m2\repository\commons-lang\commons-lang\2.2\commons-lang-2.2.jar;C:\Documents and Settings\vkatson\.m2\repository\junit\junit\3.8.1\junit-3.8.1.jar;C:\Documents and Settings\vkatson\.m2\repository\com\h2database\h2\1.0.69\h2-1.0.69.jar;C:\Documents and Settings\vkatson\.m2\repository\ant\ant\1.6.5\ant-1.6.5.jar;C:\Documents and Settings\vkatson\.m2\repository\dom4j\dom4j\1.6.1\dom4j-1.6.1.jar;C:\Documents and Settings\vkatson\.m2\repository\jaxen\jaxen\1.0-FCS\jaxen-1.0-FCS.jar;C:\Documents and Settings\vkatson\.m2\repository\jdom\jdom\1.0\jdom-1.0.jar;C:\Documents and Settings\vkatson\.m2\repository\org\apache\geronimo\specs\geronimo-j2ee-deployment_1.1_spec\1.0\geronimo-j2ee-deployment_1.1_spec-1.0.jar;C:\Documents and Settings\vkatson\.m2\repository\org\codehaus\plexus\plexus-utils\1.1\plexus-utils-1.1.jar;C:\Documents and Settings\vkatson\.m2\repository\org\terracotta\tcconfig\2.7.2\tcconfig-2.7.2.jar;C:\Documents and Settings\vkatson\.m2\repository\commons-collections\commons-collections\3.1\commons-collections-3.1.jar;C:\Documents and Settings\vkatson\.m2\repository\org\terracotta\tcconfig2\2.0\tcconfig2-2.0.jar;C:\Documents and Settings\vkatson\.m2\repository\commons-io\commons-io\1.2\commons-io-1.2.jar;C:\Documents and Settings\vkatson\.m2\repository\log4j\log4j\1.2.9\log4j-1.2.9.jar;C:\Documents and Settings\vkatson\.m2\repository\org\terracotta\tcconfig1\1.0\tcconfig1-1.0.jar;C:\Documents and Settings\vkatson\.m2\repository\org\terracotta\terracotta\2.7.2\terracotta-2.7.2.jar;C:\Documents and Settings\vkatson\.m2\repository\org\terracotta\tc-l1-reconnect-properties\2.7.2\tc-l1-reconnect-properties-2.7.2.jar;C:\Documents and Settings\vkatson\.m2\repository\org\terracotta\tcstats\2.7.2\tcstats-2.7.2.jar;C:\Documents and Settings\vkatson\.m2\repository\org\terracotta\linked-child-process\1.0.1\linked-child-process-1.0.1.jar;C:\Documents and Settings\vkatson\.m2\repository\commons-httpclient\commons-httpclient\3.0.1\commons-httpclient-3.0.1.jar;C:\Documents and Settings\vkatson\.m2\repository\commons-codec\commons-codec\1.2\commons-codec-1.2.jar;C:\Documents and Settings\vkatson\.m2\repository\javax\management\jmxri\1.2.1\jmxri-1.2.1.jar;C:\Documents and Settings\vkatson\.m2\repository\javax\management\jmxremote\1.0.1_04\jmxremote-1.0.1_04.jar;C:\Documents and Settings\vkatson\.m2\repository\javax\management\jmxremote_optional\1.0.1_04\jmxremote_optional-1.0.1_04.jar;C:\Documents and Settings\vkatson\.m2\repository\com\google\code\guice\guice\1.0\guice-1.0.jar;C:\Documents and Settings\vkatson\.m2\repository\org\beanshell\bsh\2.0b4\bsh-2.0b4.jar;C:\Documents and Settings\vkatson\.m2\repository\xmlbeans\xbean\2.1.0\xbean-2.1.0.jar;C:\Documents and Settings\vkatson\.m2\repository\xmlbeans\xbean_xpath\2.1.0\xbean_xpath-2.1.0.jar;C:\Documents and Settings\vkatson\.m2\repository\xmlbeans\xmlpublic\2.1.0\xmlpublic-2.1.0.jar;C:\Documents and Settings\vkatson\.m2\repository\knopflerfish-tc\knopflerfish-tc\2.0.1\knopflerfish-tc-2.0.1.jar;C:\Documents and Settings\vkatson\.m2\repository\javax\servlet\servlet-api\2.4\servlet-api-2.4.jar;C:\Documents and Settings\vkatson\.m2\repository\org\mortbay\jetty\jetty-util\6.1.8\jetty-util-6.1.8.jar;C:\Documents and Settings\vkatson\.m2\repository\org\mortbay\jetty\jetty\6.1.8\jetty-6.1.8.jar;C:\Documents and Settings\vkatson\.m2\repository\org\mortbay\jetty\servlet-api-2.5\6.1.8\servlet-api-2.5-6.1.8.jar;C:\Documents and Settings\vkatson\.m2\repository\concurrent\concurrent\1.3.4\concurrent-1.3.4.jar;C:\Documents and Settings\vkatson\.m2\repository\trove\trove\1.1-beta-5\trove-1.1-beta-5.jar;C:\Documents and Settings\vkatson\.m2\repository\berkeleydb\je\3.3.74\je-3.3.74.jar;C:\Documents and Settings\vkatson\.m2\repository\jline\jline\0.9.9\jline-0.9.9.jar;C:\Documents and Settings\vkatson\.m2\repository\jfree\jfreechart\1.0.11\jfreechart-1.0.11.jar;C:\Documents and Settings\vkatson\.m2\repository\jfree\jcommon\1.0.14\jcommon-1.0.14.jar;C:2009-02-19 17:36:51,218 [main] INFO com.terracottatech.console - Configuration loaded from the file at 'D:\JavaProjects\Spring-Batch-Hello-World\tc-config.xml'.
+2009-02-19 17:36:51,234 [main] INFO com.tc.bundles.Resolver - Resolved TIM org.terracotta.modules:tim-masterworker:1.4.0-SNAPSHOT from C:\Documents and Settings\vkatson\.m2\repository\org\terracotta\modules\tim-masterworker\1.4.0-SNAPSHOT\tim-masterworker-1.4.0-SNAPSHOT.jar
+apache\tomcat\juli\6.0.9\juli-6.0.9.jar;C:\Documents and Settings\vkatson\.m2\repository\stax\stax\1.2.0\stax-1.2.0.jar;C:\Documents and Settings\vkatson\.m2\repository\stax\stax-api\1.0.1\stax-api-1.0.1.jar;C:\Documents and Settings\vkatson\.m2\repository\commons-cli\commons-cli\1.0\commons-cli-1.0.jar;
+java.class.version            : 50.0
+java.endorsed.dirs            : C:\Program Files\Java\jdk1.6.0_10\jre\lib\endorsed
+java.ext.dirs                 : C:\Program Files\Java\jdk1.6.0_10\jre\lib\ext;C:\WINDOWS\Sun\Java\lib\ext
+java.home                     : C:\Program Files\Java\jdk1.6.0_10\jre
+java.io.tmpdir                : C:\DOCUME~1\vkatson\LOCALS~1\Temp\
+java.library.path             : C:\Program Files\Java\jdk1.6.0_10\jre\bin;.;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Far;C:\watcom-1.3\binnt;C:\watcom-1.3\binw;C:\Program Files\Borland\Delphi7\Bin;C:\Program Files\Borland\Delphi7\Projects\Bpl\;c:\ruby\bin;C:\Program Files\MiKTeX 2.5\miktex\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Program Files\Intel\DMIX;C:\apache-maven-2.0.8\bin;C:\Program Files\Subversion\bin;C:\Program Files\MySQL\MySQL Server 5.0\bin;C:\Program Files\Microsoft SQL Server\90\Tools\binn\;C:\WINDOWS\system32\WindowsPowerShell\v1.0;C:\Program Files\Microsoft Compute Cluster Pack SDK\Bin\;C:\Program Files\Microsoft Compute Cluster Pack\Bin\;C:\Program Files\Mercurial;C:\Program Files\TortoiseHg;C:\Program Files\Git\cmd;C:\Program Files\Git\bin;C:\SDLSuite\D7;C:\AppServ\Apache2.2\bin;C:\AppServ\php5;C:\miktex-2.5;C:\Program Files\OpenVPN\bin
+java.runtime.name             : Java(TM) SE Runtime Environment
+java.runtime.version          : 1.6.0_10-b33
+java.specification.name       : Java Platform API Specification
+java.specification.vendor     : Sun Microsystems Inc.
+java.specification.version    : 1.6
+java.vendor                   : Sun Microsystems Inc.
+java.vendor.url               : http://java.sun.com/
+java.vendor.url.bug           : http://java.sun.com/cgi-bin/bugreport.cgi
+java.version                  : 1.6.0_10
+java.vm.info                  : mixed mode, sharing
+java.vm.name                  : Java HotSpot(TM) Client VM
+java.vm.specification.name    : Java Virtual Machine Specification
+java.vm.specification.vendor  : Sun Microsystems Inc.
+java.vm.specification.version : 1.0
+java.vm.vendor                : Sun Microsystems Inc.
+java.vm.version               : 11.0-b15
+line.separator                : 
+
+os.arch                       : x86
+os.name                       : Windows XP
+os.version                    : 5.1
+path.separator                : ;
+sun.arch.data.model           : 32
+sun.boot.class.path           : C:\Program Files\Java\jdk1.6.0_10\jre\lib\resources.jar;C:\Program Files\Java\jdk1.6.0_10\jre\lib\rt.jar;C:\Program Files\Java\jdk1.6.0_10\jre\lib\sunrsasign.jar;C:\Program Files\Java\jdk1.6.0_10\jre\lib\jsse.jar;C:\Program Files\Java\jdk1.6.0_10\jre\lib\jce.jar;C:\Program Files\Java\jdk1.6.0_10\jre\lib\charsets.jar;C:\Program Files\Java\jdk1.6.0_10\jre\classes
+sun.boot.library.path         : C:\Program Files\Java\jdk1.6.0_10\jre\bin
+sun.cpu.endian                : little
+sun.cpu.isalist               : pentium_pro+mmx pentium_pro pentium+mmx pentium i486 i386 i86
+sun.desktop                   : windows
+sun.io.unicode.encoding       : UnicodeLittle
+sun.java.launcher             : SUN_STANDARD
+sun.jnu.encoding              : Cp1251
+sun.management.compiler       : HotSpot Client Compiler
+sun.os.patch.level            : Service Pack 2
+tc.classpath                  : file:/C:/DOCUME~1/vkatson/LOCALS~1/Temp/tc-classpath65081.tmp
+user.country                  : RU
+user.dir                      : D:\JavaProjects\Spring-Batch-Hello-World
+user.home                     : C:\Documents and Settings\vkatson
+user.language                 : ru
+user.name                     : vkatson
+user.timezone                 : Europe/Moscow
+user.variant                  : 
+========================================================================
+2009-02-19 17:36:23,296 [main] INFO com.terracottatech.console - Statistics store: 'D:\JavaProjects\Spring-Batch-Hello-World\statistics'.
+2009-02-19 17:36:23,296 [main] INFO com.terracottatech.dso - Statistics store: 'D:\JavaProjects\Spring-Batch-Hello-World\statistics'.
+2009-02-19 17:36:23,296 [main] INFO com.terracottatech.console - Available Max Runtime Memory: 63MB
+2009-02-19 17:36:51,937 [Statistics Logger] INFO com.terracottatech.dso - memory free : 63066512
+2009-02-19 17:36:51,937 [Statistics Logger] INFO com.terracottatech.dso - memory used : 3583600
+2009-02-19 17:36:51,937 [Statistics Logger] INFO com.terracottatech.dso - memory max : 66650112
+2009-02-19 17:36:54,390 [main] INFO com.terracottatech.console - Statistics buffer: 'D:\JavaProjects\Spring-Batch-Hello-World\statistics'.
+2009-02-19 17:36:54,390 [main] INFO com.terracottatech.dso - Statistics buffer: 'D:\JavaProjects\Spring-Batch-Hello-World\statistics'.
+2009-02-19 17:36:54,875 [main] INFO com.terracottatech.console - JMX Server started. Available at URL[service:jmx:jmxmp://0.0.0.0:9520]
+2009-02-19 17:36:54,968 [main] INFO com.tc.objectserver.persistence.sleepycat.DBEnvironment - Env config = allowCreate=true
+cacheSize=0
+txnNoSync=true
+txnWriteNoSync=false
+{je.cleaner.minAge=5, je.cleaner.bytesInterval=20000000, je.env.isTransactional=true, je.cleaner.lookAheadCacheSize=32768, je.env.isReadOnly=false, je.maxMemoryPercent=25, je.lock.nLockTables=7, je.checkpointer.bytesInterval=100000000, je.cleaner.detailMaxMemoryPercentage=5, je.lock.timeout=180000000}
+ DB Config = allowCreate=true
+exclusiveCreate=false
+transactional=true
+readOnly=false
+duplicatesAllowed=false
+deferredWrite=false
+temporary=false
+keyPrefixingEnabled=false
+ JE Properties = {je.cleaner.detailMaxMemoryPercentage=5, je.cleaner.bytesInterval=20000000, je.maxMemoryPercent=25, je.checkpointer.bytesInterval=100000000, je.cleaner.lookAheadCacheSize=32768, je.lock.nLockTables=7, je.cleaner.minAge=5, je.lock.timeout=180000000}
+2009-02-19 17:36:55,812 [main] INFO com.terracottatech.dso - Database version [2.0]
+2009-02-19 17:36:56,218 [main] INFO com.tc.net.core.TCWorkerCommManager - Creating 2 worker comm threads.
+2009-02-19 17:36:56,453 [main] INFO com.tc.net.protocol.transport.ConnectionHealthCheckerImpl: DSO Server - HealthChecker Started
+2009-02-19 17:36:56,531 [main] INFO com.tc.objectserver.dgc.impl.GarbageCollectorThread - Young Gen Time = -1 Full Gen Time = 3600000
+2009-02-19 17:36:57,062 [main] WARN com.tc.statistics.retrieval.impl.StatisticsRetrievalRegistryImpl - Statistic retrieval action com.tc.statistics.retrieval.actions.SRACpu wasn't activated since its definition couldn't be found.
+2009-02-19 17:36:57,062 [main] WARN com.tc.statistics.retrieval.impl.StatisticsRetrievalRegistryImpl - Statistic retrieval action com.tc.statistics.retrieval.actions.SRANetworkActivity wasn't activated since its definition couldn't be found.
+2009-02-19 17:36:57,062 [main] WARN com.tc.statistics.retrieval.impl.StatisticsRetrievalRegistryImpl - Statistic retrieval action com.tc.statistics.retrieval.actions.SRADiskActivity wasn't activated since its definition couldn't be found.
+2009-02-19 17:36:57,062 [main] INFO com.tc.statistics.StatisticRetrievalAction - "message monitor" statistic is not enabled. Please enable the property "tcm.monitor.delay" to collect this statistics.
+2009-02-19 17:36:57,062 [main] INFO com.tc.statistics.retrieval.actions.SRAL2FaultsFromDisk - "l2 faults from disk" statistic is not enabled. Please enable the property "l2.objectmanager.fault.logging.enabled" to collect this statistic.
+2009-02-19 17:36:57,078 [main] INFO com.tc.objectserver.tx.ServerTransactionManager - Waiting for txns to complete
+2009-02-19 17:36:57,078 [main] INFO com.tc.objectserver.tx.ServerTransactionManager - No more txns in the system.
+2009-02-19 17:36:57,078 [main] INFO com.tc.objectserver.tx.ResentTransactionSequencer - Making callback com.tc.objectserver.gtx.GlobalTransactionIDLowWaterMarkProvider$2@bdc9b3 pending since in State[ ADD_RESENT ] resent txns size : 0
+2009-02-19 17:36:57,078 [main] INFO com.tc.objectserver.handshakemanager.ServerClientHandshakeManager - Starting DSO services...
+2009-02-19 17:36:57,078 [main] INFO com.tc.objectserver.persistence.impl.TransactionStoreImpl - shutdownAllClientsExcept() : Removing txns from DB : 0
+2009-02-19 17:36:57,078 [main] INFO com.tc.objectserver.impl.ObjectRequestManagerImpl - Processing Pending Lookups = 0
+2009-02-19 17:36:57,078 [main] INFO com.tc.objectserver.tx.ResentTransactionSequencer - Unregistering ResentTransactionSequencer since no more resent Transactions : 0
+2009-02-19 17:36:57,078 [main] INFO com.tc.objectserver.tx.ResentTransactionSequencer - Adding Pending resent CallBacks to  TxnMgr : com.tc.objectserver.gtx.GlobalTransactionIDLowWaterMarkProvider$2@bdc9b3
+2009-02-19 17:36:57,078 [main] INFO com.tc.objectserver.gtx.GlobalTransactionIDLowWaterMarkProvider - Switching GlobalTransactionID Low Water mark provider since all resent transactions are applied
+2009-02-19 17:36:57,093 [main] INFO com.terracottatech.console - Terracotta Server has started up as ACTIVE node on 0.0.0.0:9510 successfully, and is now ready for work.
+2009-02-19 17:36:58,140 [TCWorkerComm # 0] INFO com.tc.net.protocol.transport.ServerMessageTransport - ConnectionID(0.26d95388bce24b779587fdbf1dd46bff): Attaching new connection: com.tc.net.core.TCConnectionJDK14@30423630: connected: true, closed: false local=192.168.18.46:9510 remote=192.168.18.46:3336 connect=[Thu Feb 19 17:36:58 MSK 2009] idle=15ms [28 read, 0 write]
+2009-02-19 17:36:58,156 [TCWorkerComm # 0] INFO com.tc.net.protocol.transport.ConnectionHealthCheckerImpl. DSO Server - Health monitoring agent started for VKATSON.main.mirantis.sar:3336
+2009-02-19 17:36:58,156 [WorkerThread(client_handshake_stage,0)] INFO com.tc.objectserver.handshakemanager.ServerClientHandshakeManager - Client connected ClientID[0]
+2009-02-19 17:36:58,406 [WorkerThread(jmxremote_tunnel_stage,0)] INFO com.tc.management.remote.protocol.terracotta.ClientTunnelingEventHandler - L1[ChannelID=[0]] notified us that their JMX server is now available
+2009-02-19 17:37:00,375 [TCWorkerComm # 1] INFO com.tc.net.protocol.transport.ServerMessageTransport - ConnectionID(1.26d95388bce24b779587fdbf1dd46bff): Attaching new connection: com.tc.net.core.TCConnectionJDK14@27317062: connected: true, closed: false local=192.168.18.46:9510 remote=192.168.18.46:3339 connect=[Thu Feb 19 17:37:00 MSK 2009] idle=0ms [28 read, 0 write]
+2009-02-19 17:37:00,375 [TCWorkerComm # 1] INFO com.tc.net.protocol.transport.ConnectionHealthCheckerImpl. DSO Server - Health monitoring agent started for VKATSON.main.mirantis.sar:3339
+2009-02-19 17:37:00,390 [WorkerThread(client_handshake_stage,0)] INFO com.tc.objectserver.handshakemanager.ServerClientHandshakeManager - Client connected ClientID[1]
+2009-02-19 17:37:00,656 [WorkerThread(jmxremote_tunnel_stage,0)] INFO com.tc.management.remote.protocol.terracotta.ClientTunnelingEventHandler - L1[ChannelID=[1]] notified us that their JMX server is now available
+2009-02-19 17:37:00,875 [WorkerThread(jmxremote_connect_stage,0)] WARN com.tc.statistics.beans.impl.StatisticsGatewayMBeanImpl - Unable to add statistics agent for channel ID 'ChannelID=[1]' to the gateway.
+com.tc.statistics.agent.exceptions.StatisticsAgentConnectionConnectErrorException: Unexpected error while finding the manager mbean of the agent.
+	at com.tc.statistics.agent.StatisticsAgentConnection.setupManagerMBean(StatisticsAgentConnection.java:193)
+	at com.tc.statistics.agent.StatisticsAgentConnection.connect(StatisticsAgentConnection.java:168)
+	at com.tc.statistics.beans.impl.StatisticsGatewayMBeanImpl.addStatisticsAgent(StatisticsGatewayMBeanImpl.java:67)
+	at com.tc.management.remote.connect.ClientConnectEventHandler.addJmxConnection(ClientConnectEventHandler.java:165)
+	at com.tc.management.remote.connect.ClientConnectEventHandler.handleEvent(ClientConnectEventHandler.java:88)
+	at com.tc.async.impl.StageImpl$WorkerThread.run(StageImpl.java:142)
+Caused by: com.tc.statistics.agent.exceptions.StatisticsAgentConnectionToNonAgentException: The node that this connection is made to is not an active statistics agent.
+	at com.tc.statistics.agent.StatisticsAgentConnection.setupManagerMBean(StatisticsAgentConnection.java:185)
+	... 5 more
+2009-02-19 17:37:40,172 [TCWorkerComm # 0] INFO com.tc.net.core.TCConnection - error reading from channel java.nio.channels.SocketChannel[connected local=/192.168.18.46:9510 remote=/192.168.18.46:3336]: Удаленный хост принудительно разорвал существующее подключение
+2009-02-19 17:37:40,172 [TCWorkerComm # 0] INFO com.tc.net.core.TCConnectionManager - error event on connection com.tc.net.core.TCConnectionJDK14@30423630: connected: true, closed: false local=192.168.18.46:9510 remote=192.168.18.46:3336 connect=[Thu Feb 19 17:36:58 MSK 2009] idle=2766ms [62174 read, 24401 write]: Удаленный хост принудительно разорвал существующее подключение
+2009-02-19 17:37:40,172 [TCWorkerComm # 0] INFO com.tc.net.protocol.transport.ConnectionHealthCheckerImpl: DSO Server - Connection to [VKATSON.main.mirantis.sar:3336] DISCONNECTED. Health Monitoring for this node is now disabled.
+2009-02-19 17:37:40,172 [TCWorkerComm # 1] INFO com.tc.net.core.TCConnection - error reading from channel java.nio.channels.SocketChannel[connected local=/192.168.18.46:9510 remote=/192.168.18.46:3339]: Удаленный хост принудительно разорвал существующее подключение
+2009-02-19 17:37:40,172 [WorkerThread(channel_life_cycle_stage,0)] INFO com.tc.objectserver.handler.ChannelLifeCycleHandler - : Received transport disconnect.  Shutting down client ClientID[0]
+2009-02-19 17:37:40,172 [TCWorkerComm # 1] INFO com.tc.net.core.TCConnectionManager - error event on connection com.tc.net.core.TCConnectionJDK14@27317062: connected: true, closed: false local=192.168.18.46:9510 remote=192.168.18.46:3339 connect=[Thu Feb 19 17:37:00 MSK 2009] idle=3563ms [41076 read, 43082 write]: Удаленный хост принудительно разорвал существующее подключение
+2009-02-19 17:37:40,172 [TCWorkerComm # 1] INFO com.tc.net.protocol.transport.ConnectionHealthCheckerImpl: DSO Server - Connection to [VKATSON.main.mirantis.sar:3339] DISCONNECTED. Health Monitoring for this node is now disabled.
+2009-02-19 17:37:40,172 [TCWorkerComm # 1] WARN com.tc.net.core.CoreNIOServices - Exception trying to process interest request: java.nio.channels.ClosedChannelException
+2009-02-19 17:37:40,188 [WorkerThread(channel_life_cycle_stage,0)] INFO com.tc.objectserver.persistence.impl.TransactionStoreImpl - shutdownClient() : Removing txns from DB : 0
+2009-02-19 17:37:40,188 [WorkerThread(channel_life_cycle_stage,0)] INFO com.tc.objectserver.handler.ChannelLifeCycleHandler - : Received transport disconnect.  Shutting down client ClientID[1]
+2009-02-19 17:37:40,188 [WorkerThread(channel_life_cycle_stage,0)] INFO com.tc.objectserver.persistence.impl.TransactionStoreImpl - shutdownClient() : Removing txns from DB : 0
